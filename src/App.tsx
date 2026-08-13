@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Landing } from "./Landing";
 import { generateCopy, type PageCopy, type Plan } from "./copy";
 import { hashString, readProductParam, slugify } from "./seed";
@@ -183,8 +184,37 @@ function Hero({ page, onBuy }: { page: PageCopy; onBuy: () => void }) {
 }
 
 function HeroVisual({ page }: { page: PageCopy }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduce) return;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      el.style.setProperty("--rx", `${(-py * 10).toFixed(2)}deg`);
+      el.style.setProperty("--ry", `${(px * 12).toFixed(2)}deg`);
+    };
+    const onLeave = () => {
+      el.style.setProperty("--rx", "0deg");
+      el.style.setProperty("--ry", "0deg");
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
+  }, [reduce]);
   return (
-    <div className="hero-visual">
+    <motion.div
+      className="hero-visual"
+      ref={ref}
+      initial={reduce ? false : { opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="orb" aria-hidden="true" />
       <div className="device glass">
         <div className="device-top">
@@ -198,7 +228,7 @@ function HeroVisual({ page }: { page: PageCopy }) {
         </div>
         <p className="device-note">All systems ornamental</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

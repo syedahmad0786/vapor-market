@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { slugify } from "./seed";
 
 type LandingProps = {
@@ -16,6 +17,7 @@ const EXAMPLES = [
 export function Landing({ onInvent }: LandingProps) {
   const [draft, setDraft] = useState("");
   const [hint, setHint] = useState("");
+  const reduce = useReducedMotion();
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -32,12 +34,25 @@ export function Landing({ onInvent }: LandingProps) {
       <div className="mesh" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
       <main className="invent-inner">
+        <motion.img
+          className="mark"
+          src="/logo.svg"
+          width={56}
+          height={56}
+          alt=""
+          initial={reduce ? false : { opacity: 0, y: 12, rotateX: 18 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        />
         <p className="kicker">FT–004 · fake commerce studio</p>
         <h1>Invent a product</h1>
         <p className="lede">
           Type any object, concept, or nonsense phrase. Receive a full polished
           landing page that could almost raise a round.
         </p>
+        <div className="orb-stage" aria-hidden="true">
+          <div className="invent-orb" />
+        </div>
         <form className="invent-form" onSubmit={submit}>
           <label className="sr-only" htmlFor="product">
             Product name

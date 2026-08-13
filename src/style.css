@@ -1,3 +1,5 @@
+@import "./kit/overlays.css";
+@import "./kit/tokens.css";
 :root {
   --sans: "Geist", "Inter", ui-sans-serif, system-ui, sans-serif;
   --serif: "Instrument Serif", ui-serif, Georgia, serif;
@@ -71,6 +73,31 @@ body.is-invent {
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 0.95;
+}
+
+.invent .mark {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(91, 77, 255, 0.28);
+}
+
+.orb-stage {
+  perspective: 900px;
+  height: 120px;
+  margin: 8px 0 8px;
+}
+
+.invent-orb {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 42% 58% 48% 52% / 48% 42% 58% 52%;
+  background: conic-gradient(from 130deg, #5b4dff, #c4b5fd, #fff8, #22d3ee, #5b4dff);
+  box-shadow: 0 30px 70px rgba(91, 77, 255, 0.35);
+  animation: morph 14s ease-in-out infinite;
+  transform: rotateX(18deg) rotateY(-12deg);
 }
 
 .invent .lede {
@@ -468,6 +495,9 @@ body.theme-dark { background: #09090b; }
   min-height: 320px;
   display: grid;
   place-items: center;
+  perspective: 1200px;
+  --rx: 0deg;
+  --ry: 0deg;
 }
 
 .orb {
@@ -480,6 +510,7 @@ body.theme-dark { background: #09090b; }
   box-shadow: 0 40px 120px var(--accent-glow);
   animation: morph 14s ease-in-out infinite;
   z-index: 0;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
 }
 
 .site[data-layout="obsidian"] .orb {
@@ -512,6 +543,8 @@ body.theme-dark { background: #09090b; }
   z-index: 1;
   width: min(420px, 100%);
   padding: 16px 16px 18px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(24px);
+  transform-style: preserve-3d;
 }
 
 .device-top {
@@ -844,5 +877,6 @@ body.theme-dark { background: #09090b; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track, .orb { animation: none; }
+  .marquee-track, .orb, .invent-orb { animation: none; }
+  .device, .orb, .invent-orb { transform: none !important; }
 }
