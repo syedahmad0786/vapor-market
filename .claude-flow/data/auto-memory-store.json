@@ -1,0 +1,14 @@
+[
+  {
+    "id": "task-vapor-market",
+    "key": "vapor-market",
+    "content": "Task completed: vapor-market",
+    "namespace": "tasks",
+    "type": "task-outcome",
+    "metadata": {
+      "success": true,
+      "quality": 0.85
+    },
+    "createdAt": 1786592238071
+  }
+]

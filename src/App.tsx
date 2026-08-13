@@ -61,6 +61,13 @@ function syncDocument(page: PageCopy | null) {
   }
   document.title = page.name;
   document.body.className = `is-site theme-${page.template.theme}`;
+  let og = document.querySelector<HTMLMetaElement>('meta[property="og:image"]');
+  if (!og) {
+    og = document.createElement("meta");
+    og.setAttribute("property", "og:image");
+    document.head.append(og);
+  }
+  og.content = `/api/og?p=${encodeURIComponent(page.slug)}`;
   const url = new URL(window.location.href);
   if (url.searchParams.get("p") !== page.slug) {
     url.searchParams.set("p", page.slug);
@@ -102,7 +109,14 @@ function ProductSite({ page, buying, onBuy, onClose, onReset }: SiteProps) {
       <button type="button" className="invent-chip" onClick={onReset}>
         invent another
       </button>
-      <BuyModal open={buying} onClose={onClose} />
+      <button
+        type="button"
+        className="invent-chip steal"
+        onClick={() => stealHero(page)}
+      >
+        steal this hero
+      </button>
+      <BuyModal open={buying} name={page.name} onClose={onClose} />
     </div>
   );
 }
@@ -326,7 +340,64 @@ function SiteFooter({ name }: { name: string }) {
   );
 }
 
-function BuyModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function stealHero(page: PageCopy): void {
+  const c = document.createElement("canvas");
+  c.width = 1200;
+  c.height = 630;
+  const g = c.getContext("2d");
+  if (!g) return;
+  g.fillStyle = page.template.theme === "dark" ? "#09090b" : "#f6f4ff";
+  g.fillRect(0, 0, 1200, 630);
+  g.fillStyle = page.template.theme === "dark" ? "#f4f0e8" : "#1c1916";
+  g.font = "600 28px sans-serif";
+  g.fillText(page.badge.toUpperCase(), 64, 90);
+  g.font = "italic 54px Georgia";
+  wrapLine(g, page.headline, 64, 200, 1070, 62);
+  g.font = "22px sans-serif";
+  g.fillStyle = "#7a7368";
+  g.fillText("vapor.market  ·  not for sale", 64, 560);
+  c.toBlob((blob) => {
+    if (!blob) return;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${page.slug}-hero.png`;
+    a.click();
+    void navigator.clipboard.writeText(
+      `${page.headline} ${window.location.href}`,
+    );
+  });
+}
+
+function wrapLine(
+  g: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  max: number,
+  lh: number,
+): void {
+  const words = text.split(" ");
+  let line = "";
+  for (const w of words) {
+    const test = line ? `${line} ${w}` : w;
+    if (g.measureText(test).width > max) {
+      g.fillText(line, x, y);
+      line = w;
+      y += lh;
+    } else line = test;
+  }
+  g.fillText(line, x, y);
+}
+
+function BuyModal({
+  open,
+  name,
+  onClose,
+}: {
+  open: boolean;
+  name: string;
+  onClose: () => void;
+}) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -348,9 +419,17 @@ function BuyModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <p className="kicker">Checkout</p>
-        <h2 id="buy-title">This product does not exist.</h2>
-        <p>You cannot buy it.</p>
-        <p>The feeling was the product.</p>
+        <h2 id="buy-title">DECLINED, spiritually.</h2>
+        <p className="receipt">
+          ITEM: {name}
+          <br />
+          QTY: 1 (imaginary)
+          <br />
+          CARD: •••• 0000
+          <br />
+          AUTH: the feeling was the product
+        </p>
+        <p>You cannot buy it. A receipt poem is all you take home.</p>
         <button type="button" className="btn-primary" onClick={onClose}>
           Close
         </button>

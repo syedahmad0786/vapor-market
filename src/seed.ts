@@ -17,6 +17,8 @@ export const TEMPLATES: readonly Template[] = [
   { index: 3, name: "gilded", theme: "dark", hero: "split", accent: "gold" },
   { index: 4, name: "mist", theme: "light", hero: "stack", accent: "teal" },
   { index: 5, name: "pulse", theme: "dark", hero: "left-huge", accent: "magenta" },
+  { index: 6, name: "grim", theme: "dark", hero: "left", accent: "gold" },
+  { index: 7, name: "wellness", theme: "light", hero: "stack", accent: "teal" },
 ];
 
 export function hashString(input: string): number {

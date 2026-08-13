@@ -267,6 +267,23 @@ body.theme-dark { background: #09090b; }
 .site[data-layout="pulse"] { --bg: #070407; }
 .site[data-layout="obsidian"] { --bg: #07080c; }
 .site[data-layout="aether"] { --bg: #f5f4ff; }
+.site[data-layout="grim"] {
+  --bg: #0c0d0f;
+  --ink: #e8e6e1;
+  --mute: #8b8d86;
+  --card: #141518;
+  --line: #2a2c28;
+  --radius: 4px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.site[data-layout="wellness"] {
+  --bg: #f7f1ea;
+  --ink: #3d332b;
+  --mute: #8a7568;
+  --accent: #c4785a;
+  --card: #fffaf4;
+  --radius: 28px;
+}
 
 .site-content { position: relative; z-index: 2; }
 
@@ -766,7 +783,15 @@ body.theme-dark { background: #09090b; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.invent-chip:hover { color: var(--ink); }
+.invent-chip.steal { left: 168px; }
+
+.receipt {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  color: var(--mute);
+}
 
 .modal-back {
   position: fixed;
