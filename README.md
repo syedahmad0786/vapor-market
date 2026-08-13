@@ -21,4 +21,4 @@ npm run dev
 
 ## Webring
 
-[a Fun Toy](https://fun-toys.vercel.app) · [prev](https://plot-armor.vercel.app) · [next](https://grandiose.vercel.app)
+[a Fun Toy](https://fun-toys-alpha.vercel.app) · [prev](https://plot-armor-livid.vercel.app) · [next](https://grandiose-seven.vercel.app)

@@ -70,10 +70,10 @@ export function Landing({ onInvent }: LandingProps) {
         </div>
       </main>
       <footer className="webring">
-        <a href="https://fun-toys.vercel.app">a Fun Toy</a>
+        <a href="https://fun-toys-alpha.vercel.app">a Fun Toy</a>
         <span>·</span>
-        <a href="https://plot-armor.vercel.app">prev</a>
-        <a href="https://grandiose.vercel.app">next</a>
+        <a href="https://plot-armor-livid.vercel.app">prev</a>
+        <a href="https://grandiose-seven.vercel.app">next</a>
       </footer>
     </div>
   );
